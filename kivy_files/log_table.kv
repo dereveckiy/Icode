@@ -1,0 +1,105 @@
+#:import dp kivy.metrics.dp
+#:import MDLabel kivymd.uix.label.MDLabel
+
+<MyLabel@MDLabel>:
+    font_size: "8sp"
+    font_style: "Body1"
+    theme_text_color: "Custom"
+    text_color: 0, 0, 0, 1
+    halign: "center"
+    padding: 0, 0
+    size_hint_x: None
+    width: dp(60)
+
+<SummaryLabel@MDLabel>:
+    font_size: "10sp"
+    halign: "center"
+    valign: "middle"
+    markup: True
+    size_hint_x: 1
+    text_size: self.size
+    shorten: True
+
+<LogTable>:
+    BoxLayout:
+        orientation: "vertical"
+        # Верхняя часть — окно со скроллом (отображение таблицы)
+        ScrollView:
+            size_hint_y: 1
+            do_scroll_x: True
+            do_scroll_y: False
+            bar_width: dp(10)
+            pos_hint: {"top": 1}
+            GridLayout:
+                id: horizontal_wrapper
+                cols: 1
+                spacing: 0
+                size_hint_x: None
+                width: root.width if root.width > 10 * dp(60) else 10 * dp(60)
+                
+                # Заголовок таблицы – 10 колонок
+                GridLayout:
+                    id: table_header
+                    cols: 10
+                    spacing: 0
+                    size_hint_y: None
+                    height: dp(30)
+                    size_hint_x: None
+                    width: root.width if root.width > 10 * dp(60) else 10 * dp(60)
+                    
+                    MyLabel:
+                        text: "№"
+                    MyLabel:
+                        text: "D(cm)"
+                    MyLabel:
+                        text: "L(m)"
+                    MyLabel:
+                        text: "Метод"
+                    MyLabel:
+                        text: "Кол-во"
+                    MyLabel:
+                        text: "Порода"
+                    MyLabel:
+                        text: "Сорт"
+                    MyLabel:
+                        text: "V(m3)"
+                    MyLabel:
+                        text: "Цена"
+                    MyLabel:
+                        text: "Общая цена"
+                
+                # Тело таблицы – вертикальный ScrollView для строк
+                ScrollView:
+                    size_hint_y: None
+                    height: dp(200)
+                    do_scroll_x: False
+                    do_scroll_y: True
+                    BoxLayout:
+                        id: table_container
+                        orientation: "vertical"
+                        spacing: 0
+                        size_hint_y: None
+                        height: self.minimum_height
+                        
+        # Нижняя фиксированная панель, которая всегда на экране
+        BoxLayout:
+            size_hint_y: None
+            height: dp(60)
+            padding: 0
+            spacing: 0
+            GridLayout:
+                cols: 3
+                spacing: 0
+                size_hint_x: 1
+                SummaryLabel:
+                    id: summary_qty
+                    font_size: "8sp"
+                    text: "[b]Всего шт: 0[/b]"
+                SummaryLabel:
+                    id: summary_vol
+                    font_size: "8sp"
+                    text: "[b]ОV(m3): 0[/b]"
+                SummaryLabel:
+                    id: summary_price
+                    font_size: "8sp"
+                    text: "[b]Общая цена: 0[/b]"

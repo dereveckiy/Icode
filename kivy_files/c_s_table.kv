@@ -1,0 +1,20 @@
+#:import dp kivy.metrics.dp
+#:import SmallTopAppBar widgets.head_custom_wigets.SmallTopAppBar
+
+<CSTableScreen>:
+    name: "c_s_table"
+    BoxLayout:
+        orientation: "vertical"
+
+        SmallTopAppBar:
+            title: "F_C+"
+            size_hint_y: None
+            height: dp(20)
+            font_size: "8sp"
+            left_action_items: [["arrow-left", lambda x: exec("app.root.current = 'calculation_screen'")]]
+            right_action_items: [["content-save", lambda x: root.open_save_load_menu()], ["export", lambda x: root.open_export_dialog(x)]]
+
+        BoxLayout:
+            id: table_box
+            orientation: "vertical"
+            size_hint_y: 1

@@ -1,0 +1,247 @@
+#:import dp kivy.metrics.dp
+<MainScreen>:
+    MDNavigationLayout:
+        ScreenManager:
+            id: screen_manager
+            Screen:
+                name: "main_screen_content"
+                BoxLayout:
+                    orientation: "vertical"
+                    MDTopAppBar:
+                        id: top_app_bar
+                        title: "FC"
+                        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+                        right_action_items: [["content-save", lambda x: root.open_save_menu()], ["export", lambda x: root.open_export_menu()]]
+                    ScrollView:
+                        do_scroll_y: True
+                        MDBoxLayout:
+                            orientation: "vertical"
+                            padding: "8dp"
+                            spacing: "8dp"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            MDBoxLayout:
+                                orientation: "horizontal"
+                                spacing: "4dp"
+                                size_hint_y: None
+                                height: "30dp"
+                                MDRectangleFlatIconButton:
+                                    id: method_button
+                                    icon: "calculator"
+                                    text: "ISO 4480-83"
+                                    theme_text_color: "Custom"
+                                    text_color: 0, 0.8, 0, 1
+                                    font_size: "10sp"
+                                    size_hint_x: 0.5
+                                    on_release: root.show_method_menu(self)
+                                MDRectangleFlatIconButton:
+                                    id: wood_type_button
+                                    icon: "tree"
+                                    text: "Порода"
+                                    theme_text_color: "Custom"
+                                    text_color: 0, 0.8, 0, 1
+                                    font_size: "10sp"
+                                    size_hint_x: 0.5
+                                    on_release: root.show_type_menu(self)
+                            MDBoxLayout:
+                                orientation: "horizontal"
+                                spacing: "4dp"
+                                size_hint_y: None
+                                height: "30dp"
+                                MDRectangleFlatIconButton:
+                                    id: price_button
+                                    icon: "currency-usd"
+                                    hint_text: "Цена"
+                                    text: "1"
+                                    theme_text_color: "Custom"
+                                    text_color: 0, 0.8, 0, 1
+                                    font_size: "10sp"
+                                    size_hint_x: None
+                                    width: "100dp"
+                                    on_release: root.show_price_menu(self)
+                                MDRectangleFlatIconButton:
+                                    id: sort_button
+                                    icon: "label"
+                                    text: "Сорт"
+                                    theme_text_color: "Custom"
+                                    text_color: 0, 0.8, 0, 1
+                                    font_size: "10sp"
+                                    size_hint_x: 0.33
+                                    on_release: root.show_sort_menu(self)
+                                MDRectangleFlatIconButton:
+                                    id: quantity_button
+                                    icon: "numeric"
+                                    text: "1"
+                                    theme_text_color: "Custom"
+                                    text_color: 0, 0.8, 0, 1
+                                    font_size: "10sp"
+                                    size_hint_x: 0.34
+                                    on_release: root.show_quantity_menu(self)
+                            MDBoxLayout:
+                                orientation: "horizontal"
+                                spacing: "8dp"
+                                size_hint_y: None
+                                height: "30dp"
+                                MDLabel:
+                                    text: "D(cm)"
+                                    font_size: "12sp"
+                                    size_hint_x: 0.33
+                                    halign: "center"
+                                    valign: "middle"
+                                MDTextField:
+                                    id: diameter_input
+                                    hint_text: ""
+                                    input_filter: "float"
+                                    font_size: "10sp"
+                                    size_hint_x: 0.33
+                                    on_text: root.update_volume()
+                                    theme_text_color: "Custom"
+                                    text_color: (1,1,1,1)
+                                    hint_text_color: (0.7,0.7,0.7,1)
+                                MDLabel:
+                                    text: "L(m)"
+                                    font_size: "12sp"
+                                    size_hint_x: 0.33
+                                    halign: "center"
+                                    valign: "middle"
+                                MDTextField:
+                                    id: length_input
+                                    hint_text: ""
+                                    input_filter: "float"
+                                    font_size: "10sp"
+                                    size_hint_x: 0.33
+                                    on_text: root.update_volume()
+                                    on_focus: if self.focus: root.open_length_menu()
+                                    theme_text_color: "Custom"
+                                    text_color: (1,1,1,1)
+                                    hint_text_color: (0.7,0.7,0.7,1)
+                            MDBoxLayout:
+                                orientation: "horizontal"
+                                spacing: "4dp"
+                                size_hint_y: None
+                                height: "30dp"
+                                MDRectangleFlatIconButton:
+                                    icon: "calculator"
+                                    text: "="
+                                    font_size: "10sp"
+                                    size_hint_x: None
+                                    width: "100dp"
+                                    on_release: root.calculate_volume()
+                                MDTextField:
+                                    id: result_label
+                                    hint_text: ""
+                                    readonly: True
+                                    font_size: "10sp"
+                                    size_hint_x: 1
+                                    theme_text_color: "Custom"
+                                    text_color: (1,1,1,1)
+                                MDIconButton:
+                                    icon: "trash-can-outline"
+                                    user_font_size: "20sp"
+                                    theme_text_color: "Custom"
+                                    text_color: (1, 0, 0, 1)
+                                    on_release: root.confirm_clear_log()
+                                    size_hint: None, None
+                                    size: dp(28), dp(28)
+                            BoxLayout:
+                                id: log_container
+                                orientation: "vertical"
+                                size_hint_y: None
+                                height: dp(300)
+                    MDBoxLayout:
+                        orientation: "horizontal"
+                        spacing: "4dp"
+                        size_hint_y: None
+                        height: "30dp"
+                        MDLabel:
+                            text: "V="
+                            font_size: "10sp"
+                            size_hint_x: None
+                            width: dp(30)
+                            halign: "center"
+                            valign: "middle"
+                        MDTextField:
+                            id: total_v
+                            readonly: True
+                            font_size: "10sp"
+                            size_hint_x: 0.5
+        MDNavigationDrawer:
+            id: nav_drawer
+            state: "close"
+            BoxLayout:
+                orientation: "vertical"
+                padding: dp(3)
+                spacing: dp(3)
+                
+                ScrollView:
+                    MDList:
+                        OneLineIconListItem:
+                            text: "FC"
+                            font_size: "10sp"
+                            on_release:
+                                nav_drawer.set_state("close")
+                                app.root.current = "main_screen"
+
+                        OneLineIconListItem:
+                            text: "F_C+ "
+                            font_size: "10sp"
+                            on_release:
+                                nav_drawer.set_state("close")
+                                app.root.current = "calculation_screen"
+                           
+                        OneLineIconListItem:
+                            text: "Settings"
+                            font_size: "10sp"
+                            on_release:
+                                nav_drawer.set_state("close")
+                                app.root.current = "settings_screen"
+                          
+                        OneLineIconListItem:
+                            text: "History"
+                            font_size: "10sp"
+                            on_release:
+                                nav_drawer.set_state("close")
+                                app.root.current = "history_screen"
+                            
+                        
+                           
+                GridLayout:
+                    cols: 2
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: dp(4)
+                    MDIcon:
+                        icon: "tree"
+                        theme_text_color: "Custom"
+                        text_color: (0.6, 1, 0.4, 1)
+                        size_hint: None, None
+                        size: dp(24), dp(24)
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: dp(2)
+                        MDLabel:
+                            text: "Forest Calc"
+                            font_size: "14sp"
+                            theme_text_color: "Custom"
+                            text_color: (0.6, 1, 0.4, 1)
+                            halign: "center"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                        MDLabel:
+                            text: "PP DR.IT email: parket dreveks@gmail.com | Version 1.0"
+                            font_size: "10sp"
+                            theme_text_color: "Custom"
+                            text_color: (0.6, 1, 0.4, 1)
+                            halign: "center"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                        MDLabel:
+                            text: "Privacy Policy | 2025"
+                            font_size: "10sp"
+                            theme_text_color: "Custom"
+                            text_color: (0.6, 1, 0.4, 1)
+                            halign: "center"
+                            size_hint_y: None
+                            height: self.texture_size[1]

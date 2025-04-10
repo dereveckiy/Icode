@@ -1,0 +1,9 @@
+<HistoryScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        MDTopAppBar:
+            title: "История таблиц"
+            left_action_items: [["arrow-left", lambda x: setattr(app.root, 'current', 'main_screen')]]
+        ScrollView:
+            MDList:
+                id: saved_tables_list

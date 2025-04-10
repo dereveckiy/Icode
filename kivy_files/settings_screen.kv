@@ -1,0 +1,27 @@
+<SettingsScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            id: top_app_bar
+            title: "Настройки"
+            left_action_items: [["arrow-left", lambda x: setattr(app.root, 'current', 'main_screen')]]
+            elevation: 10
+
+        ScrollView:
+            MDList:
+                OneLineIconListItem:
+                    text: "Изменить язык"
+                    on_release: root.change_language()
+                    IconLeftWidget:
+                        icon: "translate"
+                OneLineIconListItem:
+                    text: "Переключить на ночную тему"
+                    on_release: root.toggle_theme()
+                    IconLeftWidget:
+                        icon: "weather-night"
+                OneLineIconListItem:
+                    text: "Политика конфиденциальности"
+                    on_release: root.show_privacy_policy()
+                    IconLeftWidget:
+                        icon: "shield-lock"

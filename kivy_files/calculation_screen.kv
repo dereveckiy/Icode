@@ -1,0 +1,240 @@
+#:import OneLineListItem kivymd.uix.list.OneLineListItem
+#:import dp kivy.metrics.dp
+
+<CustomOneLineItem@OneLineListItem>:
+    highlight: False
+    canvas.before:
+        Color:
+            rgba: (0, 1, 0, 0.3) if self.highlight else (1, 1, 1, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    text_color: [0, 0, 0, 1]
+
+<CalculationScreen>:
+    MDNavigationLayout:
+        ScreenManager:
+            Screen:
+                name: "calculation_screen_content"
+                BoxLayout:
+                    orientation: "vertical"
+                    MDTopAppBar:
+                        id: top_app_bar
+                        title: "F_C+"
+                        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+                        right_action_items: [["content-save", lambda x: root.open_save_menu()], ["export", lambda x: root.open_export_menu()]]
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: dp(4)
+                        MDScrollView:
+                            do_scroll_x: True
+                            do_scroll_y: False
+                            size_hint_y: None
+                            height: dp(40)
+                            MDBoxLayout:
+                                id: icons_row
+                                orientation: "horizontal"
+                                size_hint_x: None
+                                width: self.minimum_width
+                                spacing: dp(4)
+                                MDIconButton:
+                                    id: species_btn
+                                    icon: "tree"
+                                    theme_text_color: "Custom"
+                                    text_color: 0, 1, 0, 1
+                                    on_release: root.show_wood_type_menu(self)
+                                MDIconButton:
+                                    id: grade_btn
+                                    icon: "format-list-bulleted"
+                                    theme_text_color: "Custom"
+                                    text_color: 0, 1, 0, 1
+                                    on_release: root.show_sort_menu(self)
+                                MDIconButton:
+                                    id: price_btn
+                                    icon: "currency-usd"
+                                    theme_text_color: "Custom"
+                                    text_color: 0, 1, 0, 1
+                                    on_release: root.show_price_menu(self)
+                                MDIconButton:
+                                    id: ent_total_btn
+                                    icon: "plus-box"
+                                    theme_text_color: "Custom"
+                                    text_color: 0, 1, 0, 1
+                                    on_release: root.show_quantity_menu(self)
+                                MDIconButton:
+                                    id: method_btn
+                                    icon: "toolbox"
+                                    theme_text_color: "Custom"
+                                    text_color: 0, 1, 0, 1
+                                    on_release: root.show_method_menu(self)
+                        MDBoxLayout:
+                            orientation: "horizontal"
+                            size_hint_y: None
+                            height: dp(40)
+                            spacing: dp(4)
+                            MDLabel:
+                                text: "D(cm)"
+                                size_hint_x: 0.15
+                                halign: "center"
+                            MDTextField:
+                                id: diameter_input
+                                hint_text: ""
+                                input_filter: "float"
+                                font_size: "10sp"
+                                size_hint_x: 0.25
+                                on_text: root.update_volume()
+                                theme_text_color: "Custom"
+                                text_color: (1,1,1,1)
+                                hint_text_color: (0.7,0.7,0.7,1)
+                            MDLabel:
+                                text: "L(m)"
+                                size_hint_x: 0.15
+                                halign: "center"
+                            MDTextField:
+                                id: length_input
+                                hint_text: ""
+                                input_filter: "float"
+                                font_size: "10sp"
+                                size_hint_x: 0.25
+                                on_text: root.update_volume()
+                                on_focus: if self.focus: root.open_length_menu()
+                                theme_text_color: "Custom"
+                                text_color: (1,1,1,1)
+                                hint_text_color: (0.7,0.7,0.7,1)
+                        MDBoxLayout:
+                            orientation: "horizontal"
+                            size_hint_y: None
+                            height: dp(40)
+                            spacing: dp(4)
+                            MDLabel:
+                                text: "V"
+                                size_hint_x: 0.2
+                                halign: "center"
+                            MDTextField:
+                                id: volume_output
+                                readonly: True
+                                size_hint_x: 0.3
+                                theme_text_color: "Custom"
+                                text_color: (1,1,1,1)
+                            MDIconButton:
+                                icon: "trash-can-outline"
+                                theme_text_color: "Custom"
+                                text_color: (1, 0, 0, 1)
+                                size_hint: None, None
+                                size: dp(28), dp(28)
+                                on_release: root.confirm_clear_all()
+                            MDIconButton:
+                                icon: "check-circle-outline"
+                                theme_text_color: "Custom"
+                                text_color: (0, 1, 0, 1)
+                                size_hint: None, None
+                                size: dp(28), dp(28)
+                                on_release: root.open_full_table()
+                        ScrollView:
+                            do_scroll_x: True
+                            do_scroll_y: True
+                            size_hint_y: None
+                            height: root.height * 0.4
+                            GridLayout:
+                                id: d_buttons_layout
+                                cols: 5
+                                spacing: dp(1)
+                                size_hint_y: None
+                                height: self.minimum_height
+                        MDBoxLayout:
+                            orientation: "vertical"
+                            padding: dp(4)
+                            spacing: dp(4)
+                            size_hint_y: None
+                            height: dp(40)
+                            MDBoxLayout:
+                                orientation: "horizontal"
+                                size_hint_y: None
+                                height: dp(40)
+                                MDLabel:
+                                    text: "Vобщ."
+                                    size_hint_x: 0.3
+                                    halign: "center"
+                                MDTextField:
+                                    id: total_v
+                                    readonly: True
+                                    size_hint_x: 0.7
+        MDNavigationDrawer:
+            id: nav_drawer
+            BoxLayout:
+                orientation: "vertical"
+                padding: dp(8)
+                spacing: dp(8)
+               
+                ScrollView:
+                    MDList:
+                        OneLineIconListItem:
+                            text: "FC"
+                            font_size: "10sp"
+                            on_release:
+                                nav_drawer.set_state("close")
+                                app.root.current = "main_screen"
+
+                        OneLineIconListItem:
+                            text: "F_C+ "
+                            font_size: "10sp"
+                            on_release:
+                                nav_drawer.set_state("close")
+                                app.root.current = "calculation_screen"
+                           
+                        OneLineIconListItem:
+                            text: "Settings"
+                            font_size: "10sp"
+                            on_release:
+                                nav_drawer.set_state("close")
+                                app.root.current = "settings_screen"
+                          
+                        OneLineIconListItem:
+                            text: "History"
+                            font_size: "10sp"
+                            on_release:
+                                nav_drawer.set_state("close")
+                                app.root.current = "history_screen"
+                            
+                        
+                           
+                GridLayout:
+                    cols: 2
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: dp(4)
+                    MDIcon:
+                        icon: "tree"
+                        theme_text_color: "Custom"
+                        text_color: (0.6, 1, 0.4, 1)
+                        size_hint: None, None
+                        size: dp(24), dp(24)
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: dp(2)
+                        MDLabel:
+                            text: "Forest Calc"
+                            font_size: "14sp"
+                            theme_text_color: "Custom"
+                            text_color: (0.6, 1, 0.4, 1)
+                            halign: "center"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                        MDLabel:
+                            text: "PP DR.IT email: parket dreveks@gmail.com | Version 1.0"
+                            font_size: "10sp"
+                            theme_text_color: "Custom"
+                            text_color: (0.6, 1, 0.4, 1)
+                            halign: "center"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                        MDLabel:
+                            text: "Privacy Policy | 2025"
+                            font_size: "10sp"
+                            theme_text_color: "Custom"
+                            text_color: (0.6, 1, 0.4, 1)
+                            halign: "center"
+                            size_hint_y: None
+                            height: self.texture_size[1]

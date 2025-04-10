@@ -1,0 +1,42 @@
+<Drawer>:
+    orientation: "vertical"
+    padding: "8dp"
+    spacing: "8dp"
+    
+    MDLabel:
+        text: "Меню"
+        font_style: "H5"
+        size_hint_y: None
+        height: self.texture_size[1]
+        
+    MDRectangleFlatButton:
+        text: "Главная"
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
+        on_release:
+            app.root.ids.nav_drawer.set_state("close")
+            app.root.ids.screen_manager.current = "main"
+        
+    MDRectangleFlatButton:
+        text: "Настройки"
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
+        on_release:
+            app.root.ids.nav_drawer.set_state("close")
+            app.root.ids.screen_manager.current = "settings"
+        
+    MDRectangleFlatButton:
+        text: "История"
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
+        on_release:
+            app.root.ids.nav_drawer.set_state("close")
+            app.root.ids.screen_manager.current = "history"
+
+    MDRectangleFlatButton:
+        text: "Расчеты"
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
+        on_release:
+            app.root.ids.nav_drawer.set_state("close")
+            app.root.ids.screen_manager.current = "calculation"
