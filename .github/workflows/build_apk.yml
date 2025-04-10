@@ -2,7 +2,7 @@ name: Build APK with Buildozer
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
         buildozer android release
 
     - name: Upload APK
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       with:
         name: Icode-release-apk
         path: bin/*.apk
