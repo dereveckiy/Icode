@@ -37,3 +37,8 @@ jobs:
       run: |
         echo "✅ Сборка завершена. Вот APK файл:"
         ls -lh bin/
+
+    - name: Accept licenses
+      run: yes | $HOME/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+
