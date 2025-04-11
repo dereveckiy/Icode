@@ -32,8 +32,7 @@ jobs:
       run: |
         buildozer android release
 
-    - name: Upload APK
-      uses: actions/upload-artifact@v3
-      with:
-        name: Icode-release-apk
-        path: bin/*.apk
+    - name: List APK files (manual download)
+      run: |
+        echo "✅ Сборка завершена. Вот APK файл:"
+        ls -lh bin/
