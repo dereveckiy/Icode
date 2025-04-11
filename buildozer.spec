@@ -27,7 +27,6 @@ android.allow_backup = True
 android.release = 1
 android.debug = 0
 android.api = 31
-android.minapi = 21
 
 android.keystore = my-release-key.keystore
 android.keystore_password = 4256942569iG
