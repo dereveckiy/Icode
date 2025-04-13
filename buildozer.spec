@@ -22,6 +22,7 @@ android.sdk = 30
 android.ndk = 21b
 android.private_storage = True
 android.allow_backup = True
+android.build_tools_version = 34.0.0
 
 # --- Release settings for Google Play ---
 android.release = 1
