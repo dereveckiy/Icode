@@ -28,7 +28,7 @@ android.build_tools_version = 34.0.0
 # --- Release settings for Google Play ---
 android.release = 1
 android.debug = 0
-android.api = 31
+android.api = 34
 
 android.keystore = my-release-key.keystore
 android.keystore_password = 4256942569iG
