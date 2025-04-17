@@ -50,7 +50,11 @@ jobs:
         buildozer android release
 
     - name: Upload APK
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: release-apk
         path: bin/*.apk
+
+    - name: Clean previous buildozer output (optional)
+      run: rm -rf .buildozer bin
+
