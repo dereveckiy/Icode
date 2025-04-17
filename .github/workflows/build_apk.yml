@@ -28,19 +28,25 @@ jobs:
         pip install --upgrade pip
         pip install buildozer cython
 
+    - name: Decode Keystore
+      run: |
+        echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > my-release-key.keystore
 
     - name: Build APK
+      env:
+        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       run: |
         buildozer android release
 
-    - name: List APK files (manual download)
+    - name: List APK files
       run: |
-        echo "✅ Сборка завершена. Вот APK файл:"
+        echo "✅ APK-файл:"
         ls -lh bin/
 
-    - name: Accept Android SDK licenses manually
-      run: |
-        mkdir -p ~/.android
-        echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > ~/.android/repositories.cfg
-        yes | sdkmanager --licenses
-
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: Icode-APK
+        path: bin/*.apk
