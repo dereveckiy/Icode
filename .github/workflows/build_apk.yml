@@ -23,11 +23,11 @@ jobs:
         sudo apt update
         sudo apt install -y python3-pip build-essential ccache git zip unzip \
           openjdk-17-jdk libstdc++6 zlib1g zlib1g-dev \
-          libffi-dev libssl-dev liblzma-dev libncurses6 \
-          libncurses5  # <--- фикс отсутствующего пакета
+          libffi-dev libssl-dev liblzma-dev
 
         pip install --upgrade pip
         pip install buildozer cython
+
 
     - name: Decode keystore from base64
       run: |
