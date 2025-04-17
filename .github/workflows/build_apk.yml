@@ -23,30 +23,34 @@ jobs:
         sudo apt update
         sudo apt install -y python3-pip build-essential ccache git zip unzip \
           openjdk-17-jdk libstdc++6 zlib1g zlib1g-dev \
-          libffi-dev libssl-dev liblzma-dev libncurses6
+          libffi-dev libssl-dev liblzma-dev libncurses6 \
+          libncurses5  # <--- фикс отсутствующего пакета
 
         pip install --upgrade pip
         pip install buildozer cython
 
-    - name: Decode Keystore
+    - name: Decode keystore from base64
       run: |
-        echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > my-release-key.keystore
+        echo "${{ secrets.KEYSTORE_FILE_BASE64 }}" | base64 --decode > my-release-key.keystore
+
+    - name: Fix Android SDK license
+      run: |
+        mkdir -p ~/.android
+        echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > ~/.android/repositories.cfg
 
     - name: Build APK
       env:
+        ANDROID_HOME: /home/runner/.buildozer/android/platform/android-sdk
+        # Пароли через secrets:
         KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        KEY_ALIAS_PASSWORD: ${{ secrets.KEY_ALIAS_PASSWORD }}
       run: |
+        echo "📦 Start building APK..."
         buildozer android release
 
-    - name: List APK files
-      run: |
-        echo "✅ APK-файл:"
-        ls -lh bin/
-
     - name: Upload APK
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       with:
-        name: Icode-APK
+        name: release-apk
         path: bin/*.apk
