@@ -38,6 +38,23 @@ jobs:
         mkdir -p ~/.android
         echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > ~/.android/repositories.cfg
 
+    - name: Install Android Build Tools manually
+      run: |
+        yes | sdkmanager --licenses
+        sdkmanager "build-tools;33.0.2" "platforms;android-33"
+
+    - name: Fix Android SDK license
+      run: |
+        mkdir -p ~/.android
+        echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > ~/.android/repositories.cfg
+
+    - name: Install Android Build Tools manually
+      run: |
+        yes | sdkmanager --licenses
+        sdkmanager "build-tools;33.0.2" "platforms;android-33"
+
+
+
     - name: Build APK
       env:
         ANDROID_HOME: /home/runner/.buildozer/android/platform/android-sdk
@@ -57,4 +74,6 @@ jobs:
 
     - name: Clean previous buildozer output (optional)
       run: rm -rf .buildozer bin
+
+      
 
